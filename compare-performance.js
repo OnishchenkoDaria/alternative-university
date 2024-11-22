@@ -3,7 +3,7 @@ import { mysqlHandler } from './mysql.js';
 import { redisHandler } from './redis.js';
 
 const testPerformance = async () => {
-    const { students, tutors, feedback } = generateRandomData(10000);
+    const { students, tutors, feedback } = generateRandomData(1000);
     saveDataToFile({ students, tutors, feedback }, 'feedbackData.json');
 
     //mysql operations

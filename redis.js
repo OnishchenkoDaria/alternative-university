@@ -22,11 +22,17 @@ export const redisHandler = {
 
     fetchAllData: async () => {
         const start = Date.now();
-        for (let i = 1; i <= 10000; i++) {
-            await redisClient.hGetAll(`feedback:${i}`);
+
+        //using pipeline instead of `hGetAll` command
+        const pipeline = redisClient.multi();
+        for (let i = 1; i <= 1000; i++) {
+            pipeline.hGetAll(`feedback:${i}`);
         }
+
+        const results = await pipeline.exec(); //executes all commands in one go
         const end = Date.now();
-        console.log(`Redis: Fetched 10,000 records in ${end - start} ms`);
+
+        console.log(`Redis: Fetched ${results.length} records in ${end - start} ms`);
         return end - start;
     },
 };
